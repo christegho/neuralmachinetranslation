@@ -48,15 +48,24 @@ kamakura</w> period</w> .</w> </s>
 mkdir hifst/lats.bpe.dev
 for id in `seq 1 1166`; do
 echo $id
-fstcompose ./words/hifst/lats.semstoch.dev/$id.fst  > hifst/lats.bpe.dev/$id.fst 
+fstcompose ../words/hifst/lats.semstoch.dev/$id.fst w2bpe.en.fst > hifst/lats.bpe.dev/$id.fst 
 done
 
 mkdir hifst/lats.bpe.test
 for id in `seq 1 1160`; do
 echo $id
-fstcompose ./words/hifst/lats.semstoch.test/$id.fst  > hifst/lats.bpe.test/$id.fst 
+fstcompose ../words/hifst/lats.semstoch.test/$id.fst w2bpe.en.fst > hifst/lats.bpe.test/$id.fst 
 done
 
 
 $DIR/scripts/sgnmt_on_grid_cpu.sh 40 1166 output/lats.bpe.dev ini/fst_dev_3.4.2.ini
 $DIR/scripts/sgnmt_on_grid_cpu.sh 40 1160 output/lats.bpe.test ini/fst_test_3.4.2.ini
+
+cat `ls -1v output/lats.bpe.dev/*.text` > output/lats.bpe.dev/hyps.ids
+$DIR/scripts/eval.sh output/lats.bpe.dev/hyps.ids $DIR/data/wmap.bpe.en $DIR/data/dev.en
+cat output/lats.bpe.dev/logs/* | fgrep 'Stats' | sed 's,.*=,,' | awk '{acc = acc + $NF}END{print acc}'
+cat `ls -1v output/lats.bpe.test/*.text` > output/lats.bpe.test/hyps.ids
+$DIR/scripts/eval.sh output/lats.bpe.test/hyps.ids $DIR/data/wmap.bpe.en $DIR/data/test.en
+cat output/lats.bpe.test/logs/* | fgrep 'Stats' | sed 's,.*=,,' | awk '{acc = acc + $NF}END{print acc}'
+
+

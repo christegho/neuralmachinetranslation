@@ -101,3 +101,27 @@ $DIR/scripts/sgnmt_on_grid_cpu.sh 40 1160 output/lats.stoch.test ini/fst_test_3.
 $DIR/scripts/sgnmt_on_grid_cpu.sh 40 1166 output/lats.semstoch.dev ini/fst_dev_3.3.2b.ini
 $DIR/scripts/sgnmt_on_grid_cpu.sh 40 1160 output/lats.semstoch.test ini/fst_test_3.3.2b.ini
 
+
+
+cat `ls -1v output/lats.min.er.dev/*.text` > output/lats.min.er.dev/hyps.ids
+$DIR/scripts/eval.sh output/lats.min.er.dev/hyps.ids $DIR/data/wmap.en $DIR/data/dev.en
+cat output/lats.min.er.dev/logs/* | fgrep 'Stats' | sed 's,.*=,,' |awk '{acc = acc + $NF}END{print acc}'
+cat `ls -1v output/lats.min.er.test/*.text` > output/lats.min.er.test/hyps.ids
+$DIR/scripts/eval.sh output/lats.min.er.test/hyps.ids $DIR/data/wmap.en $DIR/data/test.en
+cat output/lats.min.er.test/logs/* | fgrep 'Stats' | sed 's,.*=,,' |awk '{acc = acc + $NF}END{print acc}'
+
+
+cat `ls -1v output/lats.stoch.dev/*.text` > output/lats.stoch.dev/hyps.ids
+$DIR/scripts/eval.sh output/lats.stoch.dev/hyps.ids $DIR/data/wmap.en $DIR/data/dev.en
+cat output/lats.stoch.dev/logs/* | fgrep 'Stats' | sed 's,.*=,,' | awk '{acc = acc + $NF}END{print acc}'
+cat `ls -1v output/lats.stoch.test/*.text` > output/lats.stoch.test/hyps.ids
+$DIR/scripts/eval.sh output/lats.stoch.test/hyps.ids $DIR/data/wmap.en $DIR/data/test.en
+cat output/lats.stoch.test/logs/* | fgrep 'Stats' | sed 's,.*=,,' | awk '{acc = acc + $NF}END{print acc}'
+
+
+cat `ls -1v output/lats.semstoch.dev/*.text` > output/lats.semstoch.dev/hyps.ids
+$DIR/scripts/eval.sh output/lats.semstoch.dev/hyps.ids $DIR/data/wmap.en $DIR/data/dev.en
+cat output/lats.semstoch.dev/logs/* | fgrep 'Stats' | sed 's,.*=,,' |awk '{acc = acc + $NF}END{print acc}'
+cat `ls -1v output/lats.semstoch.test/*.text` > output/lats.semstoch.test/hyps.ids
+$DIR/scripts/eval.sh output/lats.semstoch.test/hyps.ids $DIR/data/wmap.en $DIR/data/test.en
+cat output/lats.semstoch.test/logs/* | fgrep 'Stats' | sed 's,.*=,,' |awk '{acc = acc + $NF}END{print acc}'
