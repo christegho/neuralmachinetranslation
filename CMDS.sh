@@ -102,7 +102,7 @@ $DIR/scripts/eval.sh output/nmt_dev/hyps.ids $DIR/data/wmap.bpe.en $DIR/data/dev
 $DIR/scripts/eval.sh output/nmt_test/hyps.ids $DIR/data/wmap.bpe.en $DIR/data/test.en
 #eow
 #BLEU = 18.41, 51.2/23.9/13.4/8.3 (BP=0.959, ratio=0.960, hyp_len=25652, ref_len=26734)
-cat output/nmt_test/logs/* | fgrep 'Stats' | sed 's,.* =,,' |awk '{acc = acc + $NF}END{print acc}'
+cat output/nmt_test/logs/* | fgrep 'Stats' | sed 's,.*=,,' |awk '{acc = acc + $NF}END{print acc}'
 #108473
 
 

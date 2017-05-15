@@ -68,4 +68,5 @@ cat `ls -1v output/lats.bpe.test/*.text` > output/lats.bpe.test/hyps.ids
 $DIR/scripts/eval.sh output/lats.bpe.test/hyps.ids $DIR/data/wmap.bpe.en $DIR/data/test.en
 cat output/lats.bpe.test/logs/* | fgrep 'Stats' | sed 's,.*=,,' | awk '{acc = acc + $NF}END{print acc}'
 
-
+fstcompose ../words/hifst/lats.semstoch.dev/2.fst w2bpe.en.fst > 2.fst 
+fstproject --project_output 2.fst | printstrings -m $DIR/data/wmap.bpe.en
